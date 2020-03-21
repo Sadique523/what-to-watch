@@ -1,33 +1,63 @@
 import React from "react";
 import { providers, firebaseAppAuth } from "./firebase";
 import withFirebaseAuth from "react-with-firebase-auth";
-import TextField from "@material-ui/core/TextField";
-import Card from "@material-ui/core/Card";
-import Button from "@material-ui/core/Button";
+import Moment from "react-moment";
+import {
+  Container,
+  PostContainer,
+  Header,
+  Input,
+  AddPostContainer,
+  Button,
+  Select,
+  Posts
+} from "./styles";
 
 function Login(props) {
   const { user, signOut, signInWithGoogle, history } = props;
-  if (user) {
-    history.push("/");
-    localStorage.setItem("@user", JSON.stringify(user));
-  }
+  // if (user) {
+  //   history.push("/");
+  //   localStorage.setItem("@user", JSON.stringify(user));
+  // }
   return (
-    <div
-      style={{
-        display: "flex",
-        marginTop: 50,
-        justifyContent: "center",
-        alignItems: "center"
-      }}
-    >
-      <div>
-        <Card style={{ padding: "100px" }}>
-          <h1 style={{ textAlign: "center" }}>Login</h1>
-          <TextField label="Email" name="email" />
+    <Container>
+      <PostContainer>
+        <Header>
+          <div style={{ display: "flex" }}>
+            <img
+              onClick={() => props.history.push("/")}
+              width="100"
+              height="auto"
+              src="http://www.vectorico.com/download/social_media/Reddit-logo.png"
+              alt="img"
+            />
+          </div>
+          {JSON.parse(localStorage.getItem("@user")) ? (
+            <img
+              style={{ borderRadius: "50%" }}
+              width="30px"
+              height="30px"
+              alt="img"
+              src={JSON.parse(localStorage.getItem("@user")).photoURL}
+            />
+          ) : null}
+        </Header>
+        <Posts style={{ display: "flex", flexDirection: "column" }}>
+          <h1>Login</h1>
+          <Input
+            style={{ borderBottom: "1px solid #e1e2e3" }}
+            label="Email"
+            name="email"
+          />
           <br />
-          <TextField label="Password" name="password" type="password" />
+          <Input
+            style={{ borderBottom: "1px solid #e1e2e3" }}
+            label="Password"
+            name="password"
+            type="password"
+          />
           <br />
-          <div style={{ textAlign: "right" }}>
+          <div>
             <Button
               variant="contained"
               primary={true}
@@ -43,9 +73,9 @@ function Login(props) {
               class="icon ion-logo-google"
             />
           </div>
-        </Card>
-      </div>
-    </div>
+        </Posts>
+      </PostContainer>
+    </Container>
   );
 }
 

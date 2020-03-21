@@ -1,20 +1,15 @@
 import React from 'react';
 import { BrowserRouter, Switch, Route } from "react-router-dom";
-import Landing from "./components/landing";
-import Login from "./components/login";
-import Post from "./components/post";
-import AddPost from "./components/addPost";
-import "./styles.css";
+import Landing from './components/landing';
+import Header from './components/header';
 
 function App() {
   return (
     <div>
+      <Header />
       <BrowserRouter>
         <Switch>
-        <Route component={Landing} exact path="/" />
-          <Route component={Login} path="/login" />
-          <Route component={AddPost} path="/addpost" />
-          <Route component={Post} path="/:id" />
+          <Route component={Landing} exact path="/" />
         </Switch>
       </BrowserRouter>
     </div>
