@@ -1,0 +1,54 @@
+body,
+h1,
+h2,
+h3,
+h4,
+h5,
+p {
+  margin: 0px;
+  text-align: left;
+}
+
+body {
+  font-family: "Rubik";
+}
+
+.item {
+  position: relative;
+  height: 100px;
+  pointer-events: auto;
+  transform-origin: 50% 50% 0px;
+  padding-left: 32px;
+  width: 100%;
+  padding-right: 32px;
+  box-sizing: border-box;
+  display: grid;
+  align-items: center;
+  text-align: center;
+}
+
+.fg {
+  cursor: -webkit-grab;
+  background-color: white;
+  color: black;
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  display: grid;
+  align-items: center;
+  text-align: center;
+  /* box-shadow: 0px 10px 30px -5px rgba(0, 0, 0, 0.2); */
+  /* font-size: 3em; */
+
+  /* font-weight: 600; */
+  transition: box-shadow 0.75s;
+}
+
+.fg:active {
+  cursor: -webkit-grabbing;
+  box-shadow: 0px 15px 30px -5px rgba(0, 0, 0, 0.4);
+}
+
+.fg > * {
+  pointer-events: none;
+}
