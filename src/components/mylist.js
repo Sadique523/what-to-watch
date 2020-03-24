@@ -30,14 +30,18 @@ function MyList(props) {
             <Header/>
             <div style={{padding: '20px 50px'}}>
                     <h2>My List</h2><i class="share" />
-                    <h5 style={{paddingTop: 5, color: 'grey'}}>{itemList.length} results</h5>    
+                    <h5 style={{padding: '10px 0px 15px 0px', color: 'grey'}}>{itemList.length} results</h5>    
+                    <h4 style={{cursor: 'pointer'}}>
+                    <i style={{paddingRight: 10}} className="fa fa-share"></i>
+                        Share your List 
+                    </h4>
                 </div>
             <Container>
                 <InnerContainer style={{width: '70%', flexDirection: 'row', flexWrap: 'wrap'}}>
                     {itemList.map(item => {
                         return (
                             <Card style={{width: 350, height: 200}}>
-                                <Thumbnail style={{width: '100%', height: 100}} alt="show-img" src={item.thumbnail} />
+                                <Thumbnail style={{width: '100%', height: 130}} alt="show-img" src={item.thumbnail} />
                                 <Row>
                                 <Column>    
                                     <Text>{item.name}</Text>

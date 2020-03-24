@@ -27,21 +27,23 @@ function Header(props) {
     React.useEffect(() => {
         if(props.authProps) {
             localStorage.setItem("@user", JSON.stringify(props.authProps));
-            let value = {};
-            firebase
-              .database()
-              .ref(`watch-tv/users/${JSON.parse(localStorage.getItem('@user')).uid}`)
-              .once("value", function(snapshot) {
-                value = snapshot.val();
-                let array = [];
-                if (value) {
-                  Object.keys(value).forEach(item => array.push(value[item]));
-                  setItemList(array);
-                }
-            });
+           
         }
+        let value = {};
+        firebase
+          .database()
+          .ref(`watch-tv/users/${JSON.parse(localStorage.getItem('@user')).uid}`)
+          .once("value", function(snapshot) {
+            value = snapshot.val();
+            let array = [];
+            if (value) {
+              Object.keys(value).forEach(item => array.push(value[item]));
+              setItemList(array);
+            }
+        });
        
-      }, [props.authProps]);
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+      }, []);
 
     const addSuggestion = () => {
         firebase
