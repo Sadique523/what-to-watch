@@ -41,7 +41,7 @@ function Header(props) {
             });
         }
        
-      }, []);
+      }, [props.authProps]);
 
     const addSuggestion = () => {
         firebase
@@ -95,7 +95,7 @@ function Header(props) {
             </Modal>
             {
                 props.location.pathname === '/' ?  
-                <Button onClick={() => props.history.push('/login')}>Create your list</Button> : 
+                <Button onClick={() => props.history.push('/my-list')}>Create your list</Button> : 
                 <div style={{display: 'flex'}}>
                     <Button onClick={() => setModalIsOpen(true)}>Add Show</Button>
                     <Avatar style={{marginLeft: 20}} src="https://mir-s3-cdn-cf.behance.net/project_modules/disp/10f13510774061.560eadfde5b61.png" alt="netflix" />
