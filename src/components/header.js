@@ -1,9 +1,8 @@
 import React from 'react';
-import { Button, Column, Input, Select } from '../styles';
+import { Button, Column, Input, Select, Row, Avatar } from '../styles';
 import firebase from "firebase";
-import { providers, firebaseAppAuth } from "./firebase";
-import withFirebaseAuth from "react-with-firebase-auth";
 import Modal from 'react-modal';
+import { withRouter } from 'react-router-dom';
 
 
 const modalStyle = {
@@ -12,13 +11,13 @@ const modalStyle = {
       left: '50%',
       right: 'auto',
       width: '100%',
-      maxWidth: '450px',
+      maxWidth: '350px',
       bottom: 'auto',
       marginRight: '-50%',
       transform: 'translate(-50%, -50%)'
     }
 };
-function Header() {
+function Header(props) {
     const [itemList, setItemList] = React.useState([]);
     const [modalIsOpen, setModalIsOpen] = React.useState(false);
     const [name, setName] = React.useState('');
@@ -26,24 +25,28 @@ function Header() {
     const [streamingOn, setStreamingOn] = React.useState('Netflix');
 
     React.useEffect(() => {
-        let value = {};
-        firebase
-          .database()
-          .ref(`watch-tv`)
-          .once("value", function(snapshot) {
-            value = snapshot.val();
-            let array = [];
-            if (value) {
-              Object.keys(value).forEach(item => array.push(value[item]));
-              setItemList(array);
-            }
-          });
+        if(props.authProps) {
+            localStorage.setItem("@user", JSON.stringify(props.authProps));
+            let value = {};
+            firebase
+              .database()
+              .ref(`watch-tv/users/${JSON.parse(localStorage.getItem('@user')).uid}`)
+              .once("value", function(snapshot) {
+                value = snapshot.val();
+                let array = [];
+                if (value) {
+                  Object.keys(value).forEach(item => array.push(value[item]));
+                  setItemList(array);
+                }
+            });
+        }
+       
       }, []);
 
     const addSuggestion = () => {
         firebase
         .database()
-        .ref(`watch-tv/${itemList.length + 1}`)
+        .ref(`watch-tv/users/${JSON.parse(localStorage.getItem('@user')).uid}/${itemList.length + 1}`)
         .update({
             name,
             tags,
@@ -66,12 +69,12 @@ function Header() {
     }
 
     return (
-        <div style={{height: 40, display: 'flex', justifyContent: 'space-between', fontSize: '24px', fontWeight: 'bold', padding: 20}}>
-            what.to.watch
+        <div style={{height: 40, display: 'flex', justifyContent: 'space-between', fontWeight: 'bold', padding: 20}}>
+            <span style={{fontSize: '24px', cursor: 'pointer'}} onClick={() => props.history.push('/')}>what.to.watch</span>
             <Modal
                 isOpen={modalIsOpen}
                 style={modalStyle}
-                onRequestClose={() => setModalIsOpen(true)}
+                onRequestClose={() => setModalIsOpen(false)}
                 contentLabel="Example Modal"
             >
                 <Column>
@@ -90,12 +93,16 @@ function Header() {
                 </Column>
               
             </Modal>
-            <Button onClick={() => setModalIsOpen(true)}>Add Show</Button>
+            {
+                props.location.pathname === '/' ?  
+                <Button onClick={() => props.history.push('/login')}>Create your list</Button> : 
+                <div style={{display: 'flex'}}>
+                    <Button onClick={() => setModalIsOpen(true)}>Add Show</Button>
+                    <Avatar style={{marginLeft: 20}} src="https://mir-s3-cdn-cf.behance.net/project_modules/disp/10f13510774061.560eadfde5b61.png" alt="netflix" />
+                </div>
+            }
         </div>
     )
 }
 
-export default withFirebaseAuth({
-    providers,
-    firebaseAppAuth
-})(Header);
+export default withRouter(Header);

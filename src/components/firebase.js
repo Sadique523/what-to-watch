@@ -13,3 +13,11 @@ export const firebaseAppAuth = firebaseApp.auth();
 export const providers = {
   googleProvider: new firebase.auth.GoogleAuthProvider()
 };
+
+firebase.auth().signInAnonymously().catch(function(error) {
+    // Handle Errors here.
+    var errorCode = error.code;
+    var errorMessage = error.message;
+    // ...
+});
+  
