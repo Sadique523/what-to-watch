@@ -9,29 +9,54 @@ import Header from './header'
 function Landing(props) {
     const [loading, setLoading] = React.useState(true);
     const [itemList, setItemList] = React.useState([]);
+    const [uniqueitemList, setUniqueItemList] = React.useState([]);
+
 
     React.useEffect(() => {
         let value = {};
         firebase
           .database()
-          .ref(`watch-tv`)
+          .ref(`watch-tv/users`)
           .once("value", function(snapshot) {
             value = snapshot.val();
             let array = [];
             if (value) {
                 Object.keys(value).forEach(item => {
-                    if (value[item].name) {
+                    if (value[item].length) {
                         array.push(value[item]);
                     }
                 });
-                setItemList(array);
+                setItemList(array.flat());
+                setUniqueItemList(checkDuplicateInObject('name', array.flat()).reverse());
                 setLoading(false);
             }
           });
     }, []);
 
-    console.log('list', itemList);
-    
+    const checkDuplicateInObject = (propertyName, inputArray) => {
+        var seenDuplicate = false,
+            testObject = {},
+            uniqueArray = [],
+            duplicateArray = [];
+
+        inputArray.map(function(item) {
+          var itemPropertyName = item[propertyName];
+          if (itemPropertyName in testObject) {
+            testObject[itemPropertyName].duplicate = true;
+            duplicateArray.push(item.name);
+            item.duplicate = true;
+            seenDuplicate = true;
+          }
+          else {
+            testObject[itemPropertyName] = item;
+            uniqueArray.push(item);
+            delete item.duplicate;
+          }
+        });
+        
+
+        return uniqueArray;
+    }
     if(loading) {
         return <div>Loading...</div>
     }
@@ -41,12 +66,12 @@ function Landing(props) {
             <Container>
                 <InnerContainer>
                     {/* <h4 style={{paddingLeft: 12}}>Trending</h4> */}
-                    {itemList.map(item => {
+                    {uniqueitemList.map(item => {
                         return (
                             <Card>
                                 <Thumbnail width="600" height="400" alt="show-img" src={item.thumbnail} />
                                 <Row>
-                                <Column>    
+                                <Column>
                                     <Text>{item.name}</Text>
                                     <Text style={{fontSize: 12, marginTop: 10}}>In 2 people's list</Text>
                                     <Text style={{fontSize: 12, color: 'grey', marginTop: 10}}>{item.type}</Text>

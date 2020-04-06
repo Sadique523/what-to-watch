@@ -37,11 +37,11 @@ function MyList(props) {
                     </h4>
                 </div>
             <Container>
-                <InnerContainer style={{width: '70%', flexDirection: 'row', flexWrap: 'wrap'}}>
+                <InnerContainer style={{width: '80%', flexDirection: 'row', flexWrap: 'wrap'}}>
                     {itemList.map(item => {
                         return (
                             <Card style={{width: 350, height: 200}}>
-                                <Thumbnail style={{width: '100%', height: 130}} alt="show-img" src={item.thumbnail} />
+                                <Thumbnail style={{width: '100%', height: 130, objectFit: 'contain'}} alt="show-img" src={item.thumbnail} />
                                 <Row>
                                 <Column>    
                                     <Text>{item.name}</Text>

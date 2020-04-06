@@ -3,7 +3,7 @@ import { Button, Column, Input, Select, Row, Avatar } from '../styles';
 import firebase from "firebase";
 import Modal from 'react-modal';
 import { withRouter } from 'react-router-dom';
-
+import Axios from 'axios';
 
 const modalStyle = {
     content : {
@@ -22,6 +22,7 @@ function Header(props) {
     const [modalIsOpen, setModalIsOpen] = React.useState(false);
     const [name, setName] = React.useState('');
     const [tags, setTags] = React.useState('');
+    const [result, setSearchResult] = React.useState('');
     const [streamingOn, setStreamingOn] = React.useState('Netflix');
 
     React.useEffect(() => {
@@ -45,29 +46,36 @@ function Header(props) {
       // eslint-disable-next-line react-hooks/exhaustive-deps
       }, []);
 
-    const addSuggestion = () => {
-        firebase
-        .database()
-        .ref(`watch-tv/users/${JSON.parse(localStorage.getItem('@user')).uid}/${itemList.length + 1}`)
-        .update({
-            name,
-            tags,
-            streamingOn,
-            thumbnail: 'https://www.drselectronics.de/wp-content/uploads/2019/11/default-placeholder-1024x1024-960x500.png',
-            type: 'series',
-            time: new Date(),
-            user: "sadique galaria",
-        })
-        .then(data => {
-          //success callback
-          console.log("data ", data);
-        })
-        .catch(error => {
-          //error callback
-          console.log("error ", error);
-        });
-        setModalIsOpen(false)
-        window.location.reload();
+    const addSuggestion = async () => {
+        const res = await Axios.get(`http://www.omdbapi.com/?i=tt3896198&apikey=b00e3853&t=${name}`);
+
+        if(res.data) {
+            firebase
+            .database()
+            .ref(`watch-tv/users/${JSON.parse(localStorage.getItem('@user')).uid}/${itemList.length + 1}`)
+            .update({
+                name: res.data.Title,
+                tags,
+                streamingOn,
+                thumbnail: res.data.Poster ? res.data.Poster : 'https://www.drselectronics.de/wp-content/uploads/2019/11/default-placeholder-1024x1024-960x500.png',
+                type: res.data.Type,
+                year: res.data.Year,
+                time: new Date(),
+                user: "sadique galaria",
+            })
+            .then(data => {
+              //success callback
+              console.log("data ", data);
+            })
+            .catch(error => {
+              //error callback
+              console.log("error ", error);
+            });
+            setModalIsOpen(false)
+            window.location.reload();
+        }
+       
+       
     }
 
     return (
@@ -80,7 +88,7 @@ function Header(props) {
                 contentLabel="Example Modal"
             >
                 <Column>
-                    <h2>Add your suggestion</h2>
+                    <h2>Add Show / Movie</h2>
                     <Input placeholder="Series/Movie Name" value={name} onChange={(e) => setName(e.target.value)}/>
                     <Input placeholder="Tags seperated by comma Eg: Horror, Adventure" value={tags} onChange={(e) => setTags(e.target.value)}/>
                     <Select value={streamingOn} onChange={(e) => setStreamingOn(e.target.value)}>
