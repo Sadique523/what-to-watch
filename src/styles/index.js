@@ -18,7 +18,7 @@ export const Avatar = styled.img`
 export const Thumbnail = styled.img`
     width: 100%;
     height: 400px;
-    object-fit: cover;
+    object-fit: contain;
 `
 
 export const Column = styled.div`

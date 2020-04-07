@@ -28,7 +28,6 @@ function Header(props) {
     React.useEffect(() => {
         if(props.authProps) {
             localStorage.setItem("@user", JSON.stringify(props.authProps));
-           
         }
         let value = {};
         firebase
@@ -43,13 +42,12 @@ function Header(props) {
             }
         });
        
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-      }, []);
+      }, [props.authProps]);
 
     const addSuggestion = async () => {
         const res = await Axios.get(`http://www.omdbapi.com/?i=tt3896198&apikey=b00e3853&t=${name}`);
-
-        if(res.data) {
+        console.log(res.data);
+        if(res.data.Response === 'True') {
             firebase
             .database()
             .ref(`watch-tv/users/${JSON.parse(localStorage.getItem('@user')).uid}/${itemList.length + 1}`)

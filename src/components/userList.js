@@ -10,11 +10,11 @@ function MyList(props) {
     const [itemList, setItemList] = React.useState([]);
 
     React.useEffect(() => {
-        console.log(props);
+        console.log('props', props);
         let value = {};
         firebase
           .database()
-          .ref(`watch-tv/users/${props.match.id}`)
+          .ref(`watch-tv/users/${props.match.params.id}`)
           .once("value", function(snapshot) {
             value = snapshot.val();
             let array = [];
@@ -24,19 +24,18 @@ function MyList(props) {
               setLoading(false);
             }
           });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
-
-    console.log('list', itemList);
 
     return (
         <div>
             <Header />
             <Container>
-                <InnerContainer style={{width: '70%', flexDirection: 'row', flexWrap: 'wrap'}}>
+                <InnerContainer style={{width: '80%', flexDirection: 'row', flexWrap: 'wrap'}}>
                     {itemList.map(item => {
                         return (
-                            <Card style={{width: 350, height: 200}}>
-                                <Thumbnail style={{width: '100%', height: 100}} alt="show-img" src={item.thumbnail} />
+                            <Card style={{width: 350, height: 300}}>
+                                <Thumbnail style={{width: '100%', height: 220}} alt="show-img" src={item.thumbnail} />
                                 <Row>
                                 <Column>    
                                     <Text>{item.name}</Text>
