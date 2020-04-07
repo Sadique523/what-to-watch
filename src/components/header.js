@@ -17,6 +17,7 @@ const modalStyle = {
       transform: 'translate(-50%, -50%)'
     }
 };
+
 function Header(props) {
     const [itemList, setItemList] = React.useState([]);
     const [modalIsOpen, setModalIsOpen] = React.useState(false);
@@ -102,12 +103,14 @@ function Header(props) {
               
             </Modal>
             {
-                props.location.pathname === '/' ?  
-                <Button onClick={() => props.history.push('/my-list')}>Create your list</Button> : 
-                <div style={{display: 'flex'}}>
-                    <Button onClick={() => setModalIsOpen(true)}>Add Show</Button>
-                    <Avatar style={{marginLeft: 20}} src="https://mir-s3-cdn-cf.behance.net/project_modules/disp/10f13510774061.560eadfde5b61.png" alt="netflix" />
-                </div>
+                props.location.pathname === '/my-list' ?  
+                    <div style={{display: 'flex'}}>
+                        <Button onClick={() => setModalIsOpen(true)}>Add Show</Button>
+                        <Avatar style={{marginLeft: 20}} src="https://mir-s3-cdn-cf.behance.net/project_modules/disp/10f13510774061.560eadfde5b61.png" alt="netflix" />
+                    </div>
+               : 
+                <Button onClick={() => props.history.push('/my-list')}>Create your list</Button> 
+              
             }
         </div>
     )
