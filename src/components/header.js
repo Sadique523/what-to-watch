@@ -45,7 +45,7 @@ function Header(props) {
       }, [props.authProps]);
 
     const addSuggestion = async () => {
-        const res = await Axios.get(`http://www.omdbapi.com/?i=tt3896198&apikey=b00e3853&t=${name}`);
+        const res = await Axios.get(`https://www.omdbapi.com/?i=tt3896198&apikey=b00e3853&t=${name}`);
         console.log(res.data);
         if(res.data.Response === 'True') {
             firebase
