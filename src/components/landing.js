@@ -28,9 +28,9 @@ function Landing(props) {
                 });
                 setItemList(array.flat());
                 setUniqueItemList(checkDuplicateInObject('name', array.flat()).reverse());
-                setLoading(false);
             }
           });
+          setLoading(false);
     }, []);
 
     const checkDuplicateInObject = (propertyName, inputArray) => {
