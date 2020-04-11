@@ -100,7 +100,7 @@ function Landing(props) {
         <div>
             <Header authProps={props.user}/>
             <Container>
-                <InnerContainer>
+                <InnerContainer style={{flexBasis: 600}}>
                     {/* <h4 style={{paddingLeft: 12}}>Trending</h4> */}
                     {uniqueitemList.map(item => {
                         return (
