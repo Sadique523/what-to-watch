@@ -115,7 +115,7 @@ function Landing({user}) {
                                 <Row>
                                 <Column>
                                     <Text>{item.name}</Text>
-                                    <Text style={{fontSize: 12, marginTop: 10}}>In {item.count} people's list</Text>
+                                    <Text style={{fontSize: 12, marginTop: 10}}>In {item.count} {item.count > 1 ? 'people\'s' : 'person\'s'} list</Text>
                                     <Text style={{fontSize: 12, color: 'grey', marginTop: 10}}>{item.type}</Text>
                                 </Column>  
                                     {renderStreamingOnLogo(item.streamingOn)}
