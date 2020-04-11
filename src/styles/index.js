@@ -66,17 +66,14 @@ export const Select = styled.select`
 `;
 
 export const Button = styled.button`
-    border: 1px solid #000;
+    border: none;
     color: white;
     outline: none;
     height: 100%;
     padding: 0px 20px;
     border-radius: 2px;
-    background: #000;
+    background: rgba(36,127,167,0.73);
     font-size: 12px;
-    &:hover {
-        box-shadow: grey 0px 6px 6px 1px;
-    }
 `
 
 export default Card;
