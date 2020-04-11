@@ -19,7 +19,6 @@ const modalStyle = {
 };
 
 function Header(props) {
-    console.log(props);
     const [itemList, setItemList] = React.useState([]);
     const [modalIsOpen, setModalIsOpen] = React.useState(false);
     const [name, setName] = React.useState('');
@@ -48,7 +47,6 @@ function Header(props) {
 
     const addSuggestion = async () => {
         const res = await Axios.get(`https://www.omdbapi.com/?i=tt3896198&apikey=b00e3853&t=${name}`);
-        console.log(res.data);
         if(res.data.Response === 'True') {
             firebase
             .database()

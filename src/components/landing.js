@@ -53,7 +53,19 @@ function Landing(props) {
             delete item.duplicate;
           }
         });
-        
+
+        for(let i in uniqueArray) {
+            let count  = 1;
+            for(let j in duplicateArray) {
+                if(duplicateArray[j] === uniqueArray[i].name) {
+                    count++;
+                    uniqueArray[i].count = count;
+                }
+                else {
+                    uniqueArray[i].count = count;
+                }
+            }
+        }
 
         return uniqueArray;
     }
@@ -97,7 +109,7 @@ function Landing(props) {
                                 <Row>
                                 <Column>
                                     <Text>{item.name}</Text>
-                                    <Text style={{fontSize: 12, marginTop: 10}}>In 2 people's list</Text>
+                                    <Text style={{fontSize: 12, marginTop: 10}}>In {item.count} people's list</Text>
                                     <Text style={{fontSize: 12, color: 'grey', marginTop: 10}}>{item.type}</Text>
                                 </Column>  
                                     {renderStreamingOnLogo(item.streamingOn)}

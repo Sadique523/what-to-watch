@@ -8,7 +8,6 @@ import Header from './header'
 
 
 function MyList(props) {
-    console.log('listrposp',props.user);
     const [loading, setLoading] = React.useState(true);
     const [itemList, setItemList] = React.useState([]);
     const alert = useAlert();
