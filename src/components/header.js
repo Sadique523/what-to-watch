@@ -28,7 +28,6 @@ function Header({user, location, history}) {
     const [error, setError] = React.useState(null);
 
     React.useEffect(() => {
-        console.log(user);
         if(user) {
             localStorage.setItem("@user", JSON.stringify(user));
             let value = {};
@@ -36,7 +35,6 @@ function Header({user, location, history}) {
             .database()
             .ref(`watch-tv/users/${user.uid}`)
             .once("value", function(snapshot) {
-                console.log('runs');
                 value = snapshot.val();
                 let array = [];
                 if (value) {
