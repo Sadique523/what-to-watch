@@ -99,7 +99,7 @@ function Header({user, location, history}) {
 
     return (
         <div style={{height: 40, display: 'flex', alignItems: 'center', justifyContent: 'space-between', fontWeight: 'bold', padding: 20}}>
-            <span style={{fontSize: '24px', cursor: 'pointer'}} onClick={() => history.push('/')}>what2binge</span>
+            <span style={{fontSize: '24px', cursor: 'pointer'}} onClick={() => history.push('/')}>what<span style={{fontSize: 40, color: 'rgba(36,127,167,0.73)'}}>2</span>binge</span>
             <Modal
                 isOpen={modalIsOpen}
                 style={modalStyle}
