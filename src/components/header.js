@@ -19,6 +19,7 @@ const modalStyle = {
 };
 
 function Header(props) {
+    console.log(props);
     const [itemList, setItemList] = React.useState([]);
     const [modalIsOpen, setModalIsOpen] = React.useState(false);
     const [name, setName] = React.useState('');
@@ -30,20 +31,19 @@ function Header(props) {
     React.useEffect(() => {
         if(props.authProps) {
             localStorage.setItem("@user", JSON.stringify(props.authProps));
+            let value = {};
+            firebase
+            .database()
+            .ref(`watch-tv/users/${JSON.parse(localStorage.getItem('@user')).uid}`)
+            .once("value", function(snapshot) {
+              value = snapshot.val();
+              let array = [];
+              if (value) {
+                Object.keys(value).forEach(item => array.push(value[item]));
+                setItemList(array);
+              }
+            });
         }
-        let value = {};
-        firebase
-          .database()
-          .ref(`watch-tv/users/${JSON.parse(localStorage.getItem('@user')).uid}`)
-          .once("value", function(snapshot) {
-            value = snapshot.val();
-            let array = [];
-            if (value) {
-              Object.keys(value).forEach(item => array.push(value[item]));
-              setItemList(array);
-            }
-        });
-       
       }, [props.authProps]);
 
     const addSuggestion = async () => {
@@ -57,7 +57,7 @@ function Header(props) {
                 name: res.data.Title,
                 tags,
                 streamingOn,
-                thumbnail: res.data.Poster ? res.data.Poster : 'https://www.drselectronics.de/wp-content/uploads/2019/11/default-placeholder-1024x1024-960x500.png',
+                thumbnail: res.data.Poster !== 'N/A' ? res.data.Poster : 'https://www.drselectronics.de/wp-content/uploads/2019/11/default-placeholder-1024x1024-960x500.png',
                 type: res.data.Type,
                 year: res.data.Year,
                 time: new Date(),

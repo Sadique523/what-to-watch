@@ -10,7 +10,6 @@ function MyList(props) {
     const [itemList, setItemList] = React.useState([]);
 
     React.useEffect(() => {
-        console.log('props', props);
         let value = {};
         firebase
           .database()
@@ -21,9 +20,10 @@ function MyList(props) {
             if (value) {
               Object.keys(value).forEach(item => array.push(value[item]));
               setItemList(array);
-              setLoading(false);
+             
             }
           });
+          setLoading(false);
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
@@ -50,6 +50,9 @@ function MyList(props) {
         }
     }
 
+    if(loading) {
+        return <div>Loading...</div>
+    }
     return (
         <div>
             <Header />

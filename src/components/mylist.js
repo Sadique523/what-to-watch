@@ -8,28 +8,28 @@ import Header from './header'
 
 
 function MyList(props) {
+    console.log('listrposp',props.user);
     const [loading, setLoading] = React.useState(true);
     const [itemList, setItemList] = React.useState([]);
-    const hiddenEl = React.useRef(null);
     const alert = useAlert();
 
     React.useEffect(() => {
-        let value = {};
-        firebase
-          .database()
-          .ref(`watch-tv/users/${JSON.parse(localStorage.getItem('@user')).uid}`)
-          .once("value", function(snapshot) {
-            value = snapshot.val();
-            let array = [];
-            if (value) {
-              Object.keys(value).forEach(item => array.push(value[item]));
-              setItemList(array);
-              setLoading(false);
-            }
-          });
+        if(localStorage.getItem("@user")) { 
+            let value = {};
+            firebase
+              .database()
+              .ref(`watch-tv/users/${JSON.parse(localStorage.getItem('@user')).uid}`)
+              .once("value", function(snapshot) {
+                value = snapshot.val();
+                let array = [];
+                if (value) {
+                  Object.keys(value).forEach(item => array.push(value[item]));
+                  setItemList(array.reverse());
+                }
+              });
+        }
+        setLoading(false);
     }, []);
-
-    console.log(props);
 
     const shareLink = str => {
         const el = document.createElement('textarea');  // Create a <textarea> element
@@ -74,9 +74,12 @@ function MyList(props) {
             )
         }
     }
+    if(loading) {
+        return <div>Loading...</div>
+    }
     return (
         <div>
-            <Header/>
+            <Header authProps={props.user}/>
             <div style={{padding: '20px 50px'}}>
                     <h2>My List</h2><i class="share" />
                     <h5 style={{padding: '10px 0px 15px 0px', color: 'grey'}}>{itemList.length} results</h5>    
