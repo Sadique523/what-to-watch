@@ -21,6 +21,7 @@ const modalStyle = {
 function Header({user, location, history}) {
     const [itemList, setItemList] = React.useState([]);
     const [modalIsOpen, setModalIsOpen] = React.useState(false);
+    const [darkMode, setDarkMode] = React.useState(false);
     const [name, setName] = React.useState('');
     const [tags, setTags] = React.useState('');
     // const [result, setSearchResult] = React.useState('');
@@ -28,6 +29,9 @@ function Header({user, location, history}) {
     const [error, setError] = React.useState(null);
 
     React.useEffect(() => {
+        if(localStorage.getItem('darkMode')) {
+            setDarkMode(JSON.parse(localStorage.getItem('darkMode')))
+        }
         if(user) {
             localStorage.setItem("@user", JSON.stringify(user));
             let value = {};
@@ -45,6 +49,21 @@ function Header({user, location, history}) {
         }
       
       }, [user]);
+
+      React.useEffect(() => {
+          if(!darkMode) {
+            localStorage.setItem('darkMode', false);
+            document.body.style.backgroundColor = 'white';
+			document.body.style.color = 'black';
+			document.body.style.transition = '0.5s background-color';
+          }
+          else {
+            localStorage.setItem('darkMode', true);
+            document.body.style.backgroundColor = 'black';
+            document.body.style.color = 'white';
+            document.body.style.transition = '0.5s background-color';
+          }
+      }, [darkMode])
 
     const addSuggestion = async () => {
         const res = await Axios.get(`https://www.omdbapi.com/?i=tt3896198&apikey=b00e3853&t=${name}`);
@@ -76,8 +95,10 @@ function Header({user, location, history}) {
         else {
             setError('Invalid movie / series name');
         }
-       
-       
+    }
+
+    const onThemeChange = () => {
+      
     }
 
     return (
@@ -112,14 +133,30 @@ function Header({user, location, history}) {
                 </Column>
               
             </Modal>
+            <div>
+            </div>
             {
                 location.pathname === '/my-list' ?  
                     <div style={{display: 'flex'}}>
+                        
                         <Button onClick={() => setModalIsOpen(true)}>Add Show</Button>
                         <Avatar style={{marginLeft: 20}} src="https://www.allthetests.com/quiz22/picture/pic_1171831236_1.png" alt="user-logo" />
                     </div>
                : 
-                <Button onClick={() => history.push('/my-list')}>Create your list</Button> 
+               <div>
+                    <label className="switch">
+                            <input
+                                checked={darkMode}
+                                className="toggle-theme"
+                                type="checkbox"
+                                onClick={() => setDarkMode(!darkMode)}
+                            />
+                            <span className="slider round" />
+                        </label> 
+                        <Button style={{marginLeft: 10}} onClick={() => history.push('/my-list')}>Create your list</Button> 
+
+                </div>
+               
               
             }
         </div>

@@ -26,7 +26,7 @@ export const Column = styled.div`
 `;
 
 const Card = styled.div`
-    box-shadow: 0 2px 4px 0 rgba(14,30,37,.12);
+    box-shadow: 0 2px 4px 0 rgba(36, 127, 167, 0.73);
     margin: 20px;
     display: flex;
     flex-direction: column; 
@@ -69,6 +69,7 @@ export const Button = styled.button`
     border: 1px solid #000;
     color: white;
     outline: none;
+    height: 100%;
     padding: 0px 20px;
     border-radius: 2px;
     background: #000;
