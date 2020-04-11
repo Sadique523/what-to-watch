@@ -10,7 +10,6 @@ export const Row = styled.div`
 export const Avatar = styled.img`
     width: 40px;
     height: 40px;
-    object-fit: contain;
     border-radius: 50%;
 `
 

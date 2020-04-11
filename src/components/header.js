@@ -23,8 +23,9 @@ function Header(props) {
     const [modalIsOpen, setModalIsOpen] = React.useState(false);
     const [name, setName] = React.useState('');
     const [tags, setTags] = React.useState('');
-    const [result, setSearchResult] = React.useState('');
+    // const [result, setSearchResult] = React.useState('');
     const [streamingOn, setStreamingOn] = React.useState('Netflix');
+    const [error, setError] = React.useState(null);
 
     React.useEffect(() => {
         if(props.authProps) {
@@ -73,6 +74,9 @@ function Header(props) {
             setModalIsOpen(false)
             window.location.reload();
         }
+        else {
+            setError('Invalid movie / series title');
+        }
        
        
     }
@@ -89,13 +93,20 @@ function Header(props) {
                 <Column>
                     <h2>Add Show / Movie</h2>
                     <Input placeholder="Series/Movie Name" value={name} onChange={(e) => setName(e.target.value)}/>
+                    <span style={{fontSize: 10, color: 'red'}}>{error}</span>
                     <Input placeholder="Tags seperated by comma Eg: Horror, Adventure" value={tags} onChange={(e) => setTags(e.target.value)}/>
                     <Select value={streamingOn} onChange={(e) => setStreamingOn(e.target.value)}>
                         <option>
                             Netflix
                         </option>
                         <option>
-                            Amazon
+                            Amazon Prime
+                        </option>
+                        <option>
+                            Disney+ Hotstar
+                        </option>
+                        <option>
+                           Not sure
                         </option>
                     </Select>
                     <Button style={{height: 40, marginTop: 20}} onClick={addSuggestion}>Submit</Button>
@@ -106,7 +117,7 @@ function Header(props) {
                 props.location.pathname === '/my-list' ?  
                     <div style={{display: 'flex'}}>
                         <Button onClick={() => setModalIsOpen(true)}>Add Show</Button>
-                        <Avatar style={{marginLeft: 20}} src="https://mir-s3-cdn-cf.behance.net/project_modules/disp/10f13510774061.560eadfde5b61.png" alt="netflix" />
+                        <Avatar style={{marginLeft: 20}} src="https://www.allthetests.com/quiz22/picture/pic_1171831236_1.png" alt="user-logo" />
                     </div>
                : 
                 <Button onClick={() => props.history.push('/my-list')}>Create your list</Button> 
