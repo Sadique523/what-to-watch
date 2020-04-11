@@ -1,10 +1,12 @@
 import React from 'react';
 import firebase from "firebase";
-
+import ContentLoader from "react-content-loader" 
 import { providers, firebaseAppAuth } from "./firebase";
 import withFirebaseAuth from "react-with-firebase-auth";
 import Card, { Container, InnerContainer, Text, Row, Avatar, Thumbnail, Column } from '../styles';
 import Header from './header'
+
+
 
 function Landing({user}) {
     const [loading, setLoading] = React.useState(true);
@@ -98,14 +100,32 @@ function Landing({user}) {
             )
         }
     }
+
+    const MyLoader = () => (
+        <ContentLoader 
+        speed={2}
+        width={600}
+        height={600}
+        viewBox="0 0 600 600"
+        backgroundColor="#f3f3f3"
+        foregroundColor="#ecebeb"
+      >
+        <rect x="9" y="643" rx="0" ry="0" width="362" height="15" /> 
+        <rect x="9" y="666" rx="0" ry="0" width="361" height="26" /> 
+        <circle cx="575" cy="665" r="20" /> 
+        <rect x="4" y="21" rx="0" ry="0" width="591" height="504" /> 
+        <rect x="15" y="546" rx="0" ry="0" width="301" height="14" /> 
+        <rect x="17" y="569" rx="0" ry="0" width="298" height="19" /> 
+        <circle cx="553" cy="567" r="21" />
+      </ContentLoader>
+      )
     
-    if(loading) {
-        return <div>Loading...</div>
-    }
     return (
         <div>
             <Header user={user}/>
             <Container>
+            {
+                loading ? <MyLoader /> :  
                 <InnerContainer style={{flexBasis: 600}}>
                     {/* <h4 style={{paddingLeft: 12}}>Trending</h4> */}
                     {uniqueitemList.map(item => {
@@ -124,7 +144,9 @@ function Landing({user}) {
                         )
                     })}
                 </InnerContainer>
+            } 
             </Container>
+           
         </div>
     )
 }
