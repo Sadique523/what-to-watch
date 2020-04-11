@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, {keyframes} from 'styled-components';
 
 
 export const Row = styled.div`
@@ -75,5 +75,21 @@ export const Button = styled.button`
     background: rgba(36,127,167,0.73);
     font-size: 12px;
 `
+
+const spin = keyframes`
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+`;
+
+export const MyLoader = styled.div`
+    border: 4px solid #f3f3f3;
+    border-radius: 50%;
+    border-top: 4px solid rgba(36,127,167,0.73);
+    width: 40px;
+    height: 40px;
+    -webkit-animation: ${spin} 2s linear infinite; /* Safari */
+    animation: ${spin} 2s linear infinite;
+`;
+
 
 export default Card;
