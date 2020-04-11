@@ -83,7 +83,7 @@ function Header(props) {
 
     return (
         <div style={{height: 40, display: 'flex', justifyContent: 'space-between', fontWeight: 'bold', padding: 20}}>
-            <span style={{fontSize: '24px', cursor: 'pointer'}} onClick={() => props.history.push('/')}>what.to.watch</span>
+            <span style={{fontSize: '24px', cursor: 'pointer'}} onClick={() => props.history.push('/')}>what2binge</span>
             <Modal
                 isOpen={modalIsOpen}
                 style={modalStyle}
