@@ -1,11 +1,9 @@
 import React from 'react';
 import firebase from "firebase";
-import { providers, firebaseAppAuth } from "./firebase";
-import withFirebaseAuth from "react-with-firebase-auth";
 import Card, { Container, InnerContainer, Text, Row, Avatar, Thumbnail, Column } from '../styles';
 import Header from './header'
 
-function MyList(props) {
+function UserList(props) {
     const [loading, setLoading] = React.useState(true);
     const [itemList, setItemList] = React.useState([]);
 
@@ -78,8 +76,5 @@ function MyList(props) {
     )
 }
 
-export default withFirebaseAuth({
-    providers,
-    firebaseAppAuth
-  })(MyList);
+export default UserList;
   

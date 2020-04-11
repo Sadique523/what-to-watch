@@ -5,6 +5,9 @@ import Modal from 'react-modal';
 import { withRouter } from 'react-router-dom';
 import Axios from 'axios';
 
+import { providers, firebaseAppAuth } from "./firebase";
+import withFirebaseAuth from "react-with-firebase-auth";
+
 const modalStyle = {
     content : {
       top: '50%',
@@ -18,7 +21,7 @@ const modalStyle = {
     }
 };
 
-function Header(props) {
+function Header({user, location, history}) {
     const [itemList, setItemList] = React.useState([]);
     const [modalIsOpen, setModalIsOpen] = React.useState(false);
     const [name, setName] = React.useState('');
@@ -28,24 +31,25 @@ function Header(props) {
     const [error, setError] = React.useState(null);
 
     React.useEffect(() => {
-        if(props.authProps) {
-            localStorage.setItem("@user", JSON.stringify(props.authProps));
+        if(user) {
+            localStorage.setItem("@user", JSON.stringify(user));
+            if(localStorage.getItem("@user")) {
+                let value = {};
+                firebase
+                .database()
+                .ref(`watch-tv/users/${user.uid}`)
+                .once("value", function(snapshot) {
+                  value = snapshot.val();
+                  let array = [];
+                  if (value) {
+                    Object.keys(value).forEach(item => array.push(value[item]));
+                    setItemList(array);
+                  }
+                });
+            }
         }
-        if(localStorage.getItem("@user")) {
-            let value = {};
-            firebase
-            .database()
-            .ref(`watch-tv/users/${JSON.parse(localStorage.getItem('@user')).uid}`)
-            .once("value", function(snapshot) {
-              value = snapshot.val();
-              let array = [];
-              if (value) {
-                Object.keys(value).forEach(item => array.push(value[item]));
-                setItemList(array);
-              }
-            });
-        }
-      }, [props.authProps]);
+      
+      }, [user]);
 
     const addSuggestion = async () => {
         const res = await Axios.get(`https://www.omdbapi.com/?i=tt3896198&apikey=b00e3853&t=${name}`);
@@ -83,7 +87,7 @@ function Header(props) {
 
     return (
         <div style={{height: 40, display: 'flex', justifyContent: 'space-between', fontWeight: 'bold', padding: 20}}>
-            <span style={{fontSize: '24px', cursor: 'pointer'}} onClick={() => props.history.push('/')}>what2binge</span>
+            <span style={{fontSize: '24px', cursor: 'pointer'}} onClick={() => history.push('/')}>what2binge</span>
             <Modal
                 isOpen={modalIsOpen}
                 style={modalStyle}
@@ -114,17 +118,20 @@ function Header(props) {
               
             </Modal>
             {
-                props.location.pathname === '/my-list' ?  
+                location.pathname === '/my-list' ?  
                     <div style={{display: 'flex'}}>
                         <Button onClick={() => setModalIsOpen(true)}>Add Show</Button>
                         <Avatar style={{marginLeft: 20}} src="https://www.allthetests.com/quiz22/picture/pic_1171831236_1.png" alt="user-logo" />
                     </div>
                : 
-                <Button onClick={() => props.history.push('/my-list')}>Create your list</Button> 
+                <Button onClick={() => history.push('/my-list')}>Create your list</Button> 
               
             }
         </div>
     )
 }
 
-export default withRouter(Header);
+export default withRouter(withFirebaseAuth({
+    providers,
+    firebaseAppAuth
+  })(Header));

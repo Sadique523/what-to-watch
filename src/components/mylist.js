@@ -1,13 +1,11 @@
 import React from 'react';
 import firebase from "firebase";
-import { providers, firebaseAppAuth } from "./firebase";
-import withFirebaseAuth from "react-with-firebase-auth";
 import { useAlert } from 'react-alert';
 import Card, { Container, InnerContainer, Text, Row, Avatar, Thumbnail, Column } from '../styles';
 import Header from './header'
 
 
-function MyList(props) {
+function MyList() {
     const [loading, setLoading] = React.useState(true);
     const [itemList, setItemList] = React.useState([]);
     const alert = useAlert();
@@ -78,7 +76,7 @@ function MyList(props) {
     }
     return (
         <div>
-            <Header authProps={props.user}/>
+            <Header />
             <div style={{padding: '20px 50px'}}>
                     <h2>My List</h2><i class="share" />
                     <h5 style={{padding: '10px 0px 15px 0px', color: 'grey'}}>{itemList.length} results</h5>    
@@ -109,8 +107,5 @@ function MyList(props) {
     )
 }
 
-export default withFirebaseAuth({
-    providers,
-    firebaseAppAuth
-  })(MyList);
+export default MyList;
   

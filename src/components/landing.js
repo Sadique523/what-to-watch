@@ -1,12 +1,9 @@
 import React from 'react';
 import firebase from "firebase";
-
-import { providers, firebaseAppAuth } from "./firebase";
-import withFirebaseAuth from "react-with-firebase-auth";
 import Card, { Container, InnerContainer, Text, Row, Avatar, Thumbnail, Column } from '../styles';
 import Header from './header'
 
-function Landing(props) {
+function Landing() {
     const [loading, setLoading] = React.useState(true);
     const [itemList, setItemList] = React.useState([]);
     const [uniqueitemList, setUniqueItemList] = React.useState([]);
@@ -98,7 +95,7 @@ function Landing(props) {
     }
     return (
         <div>
-            <Header authProps={props.user}/>
+            <Header />
             <Container>
                 <InnerContainer style={{flexBasis: 600}}>
                     {/* <h4 style={{paddingLeft: 12}}>Trending</h4> */}
@@ -123,8 +120,5 @@ function Landing(props) {
     )
 }
 
-export default withFirebaseAuth({
-    providers,
-    firebaseAppAuth
-  })(Landing);
+export default Landing;
   
