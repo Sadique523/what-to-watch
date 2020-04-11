@@ -97,10 +97,6 @@ function Header({user, location, history}) {
         }
     }
 
-    const onThemeChange = () => {
-      
-    }
-
     return (
         <div style={{height: 40, display: 'flex', alignItems: 'center', justifyContent: 'space-between', fontWeight: 'bold', padding: 20}}>
             <span style={{fontSize: '24px', cursor: 'pointer'}} onClick={() => history.push('/')}>what2binge</span>
