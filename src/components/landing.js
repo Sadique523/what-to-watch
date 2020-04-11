@@ -88,7 +88,7 @@ function Landing({user}) {
                 <Avatar src="https://images.news18.com/optimize/wd-Rf9OcaaOS_q9MyQwk11eRhhI=/532x353/images.news18.com/ibnlive/uploads/532x353/jpg/2020/04/disne-hotstar.jpg" alt="prime" />
             )
         }
-        else if(val === 'Amazon') {
+        else if(val === 'Amazon Prime') {
             return (
             <Avatar src="https://www.mediaplaynews.com/wp-content/uploads/2018/04/Prime-Video-Stacked.jpg" alt="hotstar" />
             )
