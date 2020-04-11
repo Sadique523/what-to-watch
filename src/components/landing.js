@@ -33,7 +33,7 @@ function Landing({user}) {
                 setUniqueItemList(checkDuplicateInObject('name', array.flat()).reverse());
             }
             });
-            // setLoading(false);
+            setLoading(false);
         }   
     }, [user]);
 
