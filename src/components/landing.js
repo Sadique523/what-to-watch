@@ -69,6 +69,10 @@ function Landing({user}) {
             }
         }
 
+        uniqueArray.sort((a, b) => b.name.localeCompare(a.name));
+        
+        uniqueArray.sort((a, b) => a.count.toString().localeCompare(b.count.toString()));
+
         return uniqueArray;
     }
 
