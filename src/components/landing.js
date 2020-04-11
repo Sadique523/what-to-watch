@@ -33,7 +33,7 @@ function Landing({user}) {
                 setUniqueItemList(checkDuplicateInObject('name', array.flat()).reverse());
             }
             });
-            setLoading(false);
+            // setLoading(false);
         }   
     }, [user]);
 
@@ -114,8 +114,8 @@ function Landing({user}) {
         <rect x="9" y="666" rx="0" ry="0" width="361" height="26" /> 
         <circle cx="575" cy="665" r="20" /> 
         <rect x="4" y="21" rx="0" ry="0" width="591" height="504" /> 
-        <rect x="15" y="546" rx="0" ry="0" width="301" height="14" /> 
-        <rect x="17" y="569" rx="0" ry="0" width="298" height="19" /> 
+        <rect x="6" y="537" rx="0" ry="0" width="301" height="14" /> 
+        <rect x="6" y="567" rx="0" ry="0" width="191" height="19" /> 
         <circle cx="553" cy="567" r="21" />
       </ContentLoader>
       )
