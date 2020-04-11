@@ -102,7 +102,7 @@ function Header({user, location, history}) {
     }
 
     return (
-        <div style={{height: 40, display: 'flex', justifyContent: 'space-between', fontWeight: 'bold', padding: 20}}>
+        <div style={{height: 40, display: 'flex', alignItems: 'center', justifyContent: 'space-between', fontWeight: 'bold', padding: 20}}>
             <span style={{fontSize: '24px', cursor: 'pointer'}} onClick={() => history.push('/')}>what2binge</span>
             <Modal
                 isOpen={modalIsOpen}
@@ -133,8 +133,6 @@ function Header({user, location, history}) {
                 </Column>
               
             </Modal>
-            <div>
-            </div>
             {
                 location.pathname === '/my-list' ?  
                     <div style={{display: 'flex'}}>
@@ -143,7 +141,7 @@ function Header({user, location, history}) {
                         <Avatar style={{marginLeft: 20}} src="https://www.allthetests.com/quiz22/picture/pic_1171831236_1.png" alt="user-logo" />
                     </div>
                : 
-               <div>
+               <div style={{display: 'flex', alignItems: 'center'}}>
                     <label className="switch">
                             <input
                                 checked={darkMode}

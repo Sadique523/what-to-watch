@@ -69,7 +69,7 @@ export const Button = styled.button`
     border: none;
     color: white;
     outline: none;
-    height: 100%;
+    height: 40px;
     padding: 0px 20px;
     border-radius: 2px;
     background: rgba(36,127,167,0.73);
