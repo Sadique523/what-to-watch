@@ -73,11 +73,13 @@ function Header({user, location, history}) {
             .ref(`watch-tv/users/${JSON.parse(localStorage.getItem('@user')).uid}/${itemList.length + 1}`)
             .update({
                 name: res.data.Title,
+                plot: res.data.Plot,
                 tags,
                 streamingOn,
                 thumbnail: res.data.Poster !== 'N/A' ? res.data.Poster : 'https://www.drselectronics.de/wp-content/uploads/2019/11/default-placeholder-1024x1024-960x500.png',
                 type: res.data.Type,
                 year: res.data.Year,
+                rating: res.data.imdbRating,
                 time: new Date(),
                 user: "sadique galaria",
             })

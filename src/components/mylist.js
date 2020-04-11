@@ -85,10 +85,10 @@ function MyList({user}) {
             <div style={{padding: '20px 50px'}}>
                     <h2>My List</h2><i class="share" />
                     <h5 style={{padding: '10px 0px 15px 0px', color: 'grey'}}>{itemList.length} results</h5>    
-                    <h4 style={{cursor: 'pointer'}} onClick={() => shareLink(`${window.location.origin}/${JSON.parse(localStorage.getItem('@user')).uid}`)}>
+                    <span style={{cursor: 'pointer'}} onClick={() => shareLink(`${window.location.origin}/${JSON.parse(localStorage.getItem('@user')).uid}`)}>
                         <i style={{paddingRight: 10}} className="fa fa-share"></i>
                         Share your List 
-                    </h4>
+                    </span>
                 </div>
             <Container>
                 <InnerContainer style={{width: '80%', flexDirection: 'row', flexWrap: 'wrap'}}>
