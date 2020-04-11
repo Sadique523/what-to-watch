@@ -1,20 +1,24 @@
 import React from 'react';
 import firebase from "firebase";
+
+import { providers, firebaseAppAuth } from "./firebase";
+import withFirebaseAuth from "react-with-firebase-auth";
 import Card, { Container, InnerContainer, Text, Row, Avatar, Thumbnail, Column } from '../styles';
 import Header from './header'
 
-function Landing() {
+function Landing({user}) {
     const [loading, setLoading] = React.useState(true);
     const [itemList, setItemList] = React.useState([]);
     const [uniqueitemList, setUniqueItemList] = React.useState([]);
 
 
     React.useEffect(() => {
-        let value = {};
-        firebase
-          .database()
-          .ref(`watch-tv/users`)
-          .once("value", function(snapshot) {
+        if(user) {
+            let value = {};
+            firebase
+            .database()
+            .ref(`watch-tv/users`)
+            .once("value", function(snapshot) {
             value = snapshot.val();
             let array = [];
             if (value) {
@@ -26,9 +30,10 @@ function Landing() {
                 setItemList(array.flat());
                 setUniqueItemList(checkDuplicateInObject('name', array.flat()).reverse());
             }
-          });
-          setLoading(false);
-    }, []);
+            });
+            setLoading(false);
+        }   
+    }, [user]);
 
     const checkDuplicateInObject = (propertyName, inputArray) => {
         var seenDuplicate = false,
@@ -95,7 +100,7 @@ function Landing() {
     }
     return (
         <div>
-            <Header />
+            <Header user={user}/>
             <Container>
                 <InnerContainer style={{flexBasis: 600}}>
                     {/* <h4 style={{paddingLeft: 12}}>Trending</h4> */}
@@ -120,5 +125,8 @@ function Landing() {
     )
 }
 
-export default Landing;
+export default withFirebaseAuth({
+    providers,
+    firebaseAppAuth
+  })(Landing);
   

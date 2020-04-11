@@ -1,12 +1,9 @@
 import React from 'react';
-import { Button, Column, Input, Select, Row, Avatar } from '../styles';
+import { Button, Column, Input, Select, Avatar } from '../styles';
 import firebase from "firebase";
 import Modal from 'react-modal';
 import { withRouter } from 'react-router-dom';
 import Axios from 'axios';
-
-import { providers, firebaseAppAuth } from "./firebase";
-import withFirebaseAuth from "react-with-firebase-auth";
 
 const modalStyle = {
     content : {
@@ -31,22 +28,22 @@ function Header({user, location, history}) {
     const [error, setError] = React.useState(null);
 
     React.useEffect(() => {
+        console.log(user);
         if(user) {
             localStorage.setItem("@user", JSON.stringify(user));
-            if(localStorage.getItem("@user")) {
-                let value = {};
-                firebase
-                .database()
-                .ref(`watch-tv/users/${user.uid}`)
-                .once("value", function(snapshot) {
-                  value = snapshot.val();
-                  let array = [];
-                  if (value) {
-                    Object.keys(value).forEach(item => array.push(value[item]));
-                    setItemList(array);
-                  }
-                });
-            }
+            let value = {};
+            firebase
+            .database()
+            .ref(`watch-tv/users/${user.uid}`)
+            .once("value", function(snapshot) {
+                console.log('runs');
+                value = snapshot.val();
+                let array = [];
+                if (value) {
+                Object.keys(value).forEach(item => array.push(value[item]));
+                setItemList(array);
+                }
+            });
         }
       
       }, [user]);
@@ -131,7 +128,4 @@ function Header({user, location, history}) {
     )
 }
 
-export default withRouter(withFirebaseAuth({
-    providers,
-    firebaseAppAuth
-  })(Header));
+export default withRouter(Header);

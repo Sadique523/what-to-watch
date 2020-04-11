@@ -1,9 +1,11 @@
 import React from 'react';
 import firebase from "firebase";
+import { providers, firebaseAppAuth } from "./firebase";
+import withFirebaseAuth from "react-with-firebase-auth";
 import Card, { Container, InnerContainer, Text, Row, Avatar, Thumbnail, Column } from '../styles';
 import Header from './header'
 
-function UserList(props) {
+function UserList({user, match}) {
     const [loading, setLoading] = React.useState(true);
     const [itemList, setItemList] = React.useState([]);
 
@@ -11,7 +13,7 @@ function UserList(props) {
         let value = {};
         firebase
           .database()
-          .ref(`watch-tv/users/${props.match.params.id}`)
+          .ref(`watch-tv/users/${match.params.id}`)
           .once("value", function(snapshot) {
             value = snapshot.val();
             let array = [];
@@ -53,7 +55,7 @@ function UserList(props) {
     }
     return (
         <div>
-            <Header />
+            <Header user={user}/>
             <Container>
                 <InnerContainer style={{width: '80%', flexDirection: 'row', flexWrap: 'wrap'}}>
                     {itemList.map(item => {
@@ -76,5 +78,8 @@ function UserList(props) {
     )
 }
 
-export default UserList;
+export default withFirebaseAuth({
+    providers,
+    firebaseAppAuth
+  })(UserList);
   
