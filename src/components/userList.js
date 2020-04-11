@@ -10,22 +10,24 @@ function UserList({user, match}) {
     const [itemList, setItemList] = React.useState([]);
 
     React.useEffect(() => {
-        let value = {};
-        firebase
-          .database()
-          .ref(`watch-tv/users/${match.params.id}`)
-          .once("value", function(snapshot) {
-            value = snapshot.val();
-            let array = [];
-            if (value) {
-              Object.keys(value).forEach(item => array.push(value[item]));
-              setItemList(array);
-             
-            }
-          });
-          setLoading(false);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+        if(user) {
+            let value = {};
+            firebase
+              .database()
+              .ref(`watch-tv/users/${match.params.id}`)
+              .once("value", function(snapshot) {
+                value = snapshot.val();
+                let array = [];
+                if (value) {
+                  Object.keys(value).forEach(item => array.push(value[item]));
+                  setItemList(array);
+                 
+                }
+              });
+              setLoading(false);
+        }
+      
+    }, [match.params.id, user]);
 
     const renderStreamingOnLogo = (val) => {
         if(val === 'Netflix') {

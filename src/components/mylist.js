@@ -13,22 +13,25 @@ function MyList({user}) {
     const alert = useAlert();
 
     React.useEffect(() => {
-        if(localStorage.getItem("@user")) { 
-            let value = {};
-            firebase
-              .database()
-              .ref(`watch-tv/users/${JSON.parse(localStorage.getItem('@user')).uid}`)
-              .once("value", function(snapshot) {
-                value = snapshot.val();
-                let array = [];
-                if (value) {
-                  Object.keys(value).forEach(item => array.push(value[item]));
-                  setItemList(array.reverse());
-                }
-              });
+        if(user) {
+            if(localStorage.getItem("@user")) { 
+                let value = {};
+                firebase
+                  .database()
+                  .ref(`watch-tv/users/${JSON.parse(localStorage.getItem('@user')).uid}`)
+                  .once("value", function(snapshot) {
+                    value = snapshot.val();
+                    let array = [];
+                    if (value) {
+                      Object.keys(value).forEach(item => array.push(value[item]));
+                      setItemList(array.reverse());
+                    }
+                  });
+            }
+            setLoading(false);
         }
-        setLoading(false);
-    }, []);
+       
+    }, [user]);
 
     const shareLink = str => {
         const el = document.createElement('textarea');  // Create a <textarea> element
