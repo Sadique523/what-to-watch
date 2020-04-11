@@ -73,7 +73,7 @@ function Header(props) {
             window.location.reload();
         }
         else {
-            setError('Invalid movie / series title');
+            setError('Invalid movie / series name');
         }
        
        
