@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useCallback} from 'react';
 import firebase from "firebase";
 import { providers, firebaseAppAuth } from "./firebase";
 import withFirebaseAuth from "react-with-firebase-auth";
@@ -26,12 +26,11 @@ function MyList({user}) {
                       Object.keys(value).forEach(item => array.push(value[item]));
                       setItemList(array.reverse());
                     }
-                  });
+                });
             }
-            setLoading(false);
         }
-       
-    }, [user]);
+        setLoading(false);
+     }, [user, loading]);
 
     const shareLink = str => {
         const el = document.createElement('textarea');  // Create a <textarea> element
@@ -81,7 +80,7 @@ function MyList({user}) {
     }
     return (
         <div>
-            <Header user={user}/>
+            <Header user={user} itemList={itemList} updateList={() => setLoading(true)}/>
             <div style={{padding: '20px 50px'}}>
                     <h2>My List</h2><i class="share" />
                     <h5 style={{padding: '10px 0px 15px 0px', color: 'grey'}}>{itemList.length} results</h5>    

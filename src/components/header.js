@@ -18,13 +18,11 @@ const modalStyle = {
     }
 };
 
-function Header({user, location, history}) {
-    const [itemList, setItemList] = React.useState([]);
+function Header({user, location, history, itemList, updateList}) {
     const [modalIsOpen, setModalIsOpen] = React.useState(false);
     const [darkMode, setDarkMode] = React.useState(false);
     const [name, setName] = React.useState('');
     const [tags, setTags] = React.useState('');
-    // const [result, setSearchResult] = React.useState('');
     const [streamingOn, setStreamingOn] = React.useState('Netflix');
     const [error, setError] = React.useState(null);
 
@@ -32,23 +30,7 @@ function Header({user, location, history}) {
         if(localStorage.getItem('darkMode')) {
             setDarkMode(JSON.parse(localStorage.getItem('darkMode')))
         }
-        if(user) {
-            localStorage.setItem("@user", JSON.stringify(user));
-            let value = {};
-            firebase
-            .database()
-            .ref(`watch-tv/users/${user.uid}`)
-            .once("value", function(snapshot) {
-                value = snapshot.val();
-                let array = [];
-                if (value) {
-                Object.keys(value).forEach(item => array.push(value[item]));
-                setItemList(array);
-                }
-            });
-        }
-      
-      }, [user]);
+      }, []);
 
       React.useEffect(() => {
           if(!darkMode) {
@@ -92,7 +74,7 @@ function Header({user, location, history}) {
               console.log("error ", error);
             });
             setModalIsOpen(false)
-            window.location.reload();
+            updateList();
         }
         else {
             setError('Invalid movie / series name');
