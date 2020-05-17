@@ -4,78 +4,23 @@ import { providers, firebaseAppAuth } from "./firebase";
 import withFirebaseAuth from "react-with-firebase-auth";
 import Card, { Container, InnerContainer, Text, Row, Avatar, Thumbnail, Column, MyLoader } from '../styles';
 import Header from './header'
+import Axios from 'axios';
 
 
 
 function Landing({user}) {
     const [loading, setLoading] = React.useState(true);
-    const [itemList, setItemList] = React.useState([]);
     const [uniqueitemList, setUniqueItemList] = React.useState([]);
 
 
     React.useEffect(() => {
-        if(user) {
-            let value = {};
-            firebase
-            .database()
-            .ref(`watch-tv/users`)
-            .once("value", function(snapshot) {
-            value = snapshot.val();
-            let array = [];
-            if (value) {
-                Object.keys(value).forEach(item => {
-                    if (value[item].length) {
-                        array.push(value[item]);
-                    }
-                });
-                setItemList(array.flat());
-                setUniqueItemList(checkDuplicateInObject('name', array.flat()).reverse());
+        Axios.get('https://us-central1-auth-39cb9.cloudfunctions.net/getList').then((res) => {
+            if(res.data) {
+                setUniqueItemList(res.data);
+                setLoading(false);
             }
-            });
-            setLoading(false);
-        }   
-    }, [user]);
-
-    const checkDuplicateInObject = (propertyName, inputArray) => {
-        var seenDuplicate = false,
-            testObject = {},
-            uniqueArray = [],
-            duplicateArray = [];
-
-        inputArray.map(function(item) {
-          var itemPropertyName = item[propertyName];
-          if (itemPropertyName in testObject) {
-            testObject[itemPropertyName].duplicate = true;
-            duplicateArray.push(item.name);
-            item.duplicate = true;
-            seenDuplicate = true;
-          }
-          else {
-            testObject[itemPropertyName] = item;
-            uniqueArray.push(item);
-            delete item.duplicate;
-          }
-        });
-
-        for(let i in uniqueArray) {
-            let count  = 1;
-            for(let j in duplicateArray) {
-                if(duplicateArray[j] === uniqueArray[i].name) {
-                    count++;
-                    uniqueArray[i].count = count;
-                }
-                else {
-                    uniqueArray[i].count = count;
-                }
-            }
-        }
-
-        uniqueArray.sort((a, b) => b.name.localeCompare(a.name));
-        
-        uniqueArray.sort((a, b) => a.count.toString().localeCompare(b.count.toString()));
-
-        return uniqueArray;
-    }
+        }) 
+    }, []);
 
     const renderStreamingOnLogo = (val) => {
         if(val === 'Netflix') {
