@@ -33,6 +33,12 @@ function Header({user, location, history, itemList, updateList}) {
       }, []);
 
       React.useEffect(() => {
+        if(user) {
+            localStorage.setItem("@user", JSON.stringify(user));
+        }
+      }, [user]);
+
+      React.useEffect(() => {
           if(!darkMode) {
             localStorage.setItem('darkMode', false);
             document.body.style.backgroundColor = 'white';
@@ -52,7 +58,7 @@ function Header({user, location, history, itemList, updateList}) {
         if(res.data.Response === 'True') {
             firebase
             .database()
-            .ref(`watch-tv/users/${JSON.parse(localStorage.getItem('@user')).uid}/${itemList.length + 1}`)
+            .ref(`watch-tv/users/${user.uid}/${itemList.length + 1}`)
             .update({
                 name: res.data.Title,
                 plot: res.data.Plot,
